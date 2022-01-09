@@ -28,8 +28,7 @@ class Batch:
         self.available_quantity -= line.quantity
 
     def can_allocate(self, line: OrderLine) -> bool:
-        if line.sku != self.sku:
-            return False
-        if line.quantity > self.available_quantity:
-            return False
-        return True
+        return self.sku == line.sku and self.available_quantity >= line.quantity
+
+    def deallocate(self, line: OrderLine):
+        pass
