@@ -1,5 +1,7 @@
+import pytest
 from datetime import date
 from src.domain.model import Batch, OrderLine
+from src.exceptions.model import AllocateError, DeallocateError
 
 
 def _make_batch_and_line(sku: str, batch_qty: int, line_qty: int):
@@ -38,5 +40,17 @@ def test_cannot_allocate_if_skus_do_not_match():
 
 def test_can_only_deallocate_allocated_lines():
     batch, unallocated_line = _make_batch_and_line(sku='DECORATIVE-TRINKET', batch_qty=20, line_qty=2)
-    batch.deallocate(unallocated_line)
+    error_msg = 'Error when deallocate'
+    with pytest.raises(DeallocateError) as error:
+        batch.deallocate(unallocated_line)
+    assert str(error.value) == error_msg
     assert batch.available_quantity == 20
+
+
+def test_exception_in_allocate_when_can_allocation_is_false():
+    batch = Batch(reference="batch-001", sku="UNCOMFORTABLE-CHAIR", quantity=100, eta=None)
+    different_sku_line = OrderLine(orderid="order-123", sku="EXPENSIVE-TOASTER", quantity=10)
+    error_msg = 'Error when allocate'
+    with pytest.raises(AllocateError) as error:
+        batch.allocate(different_sku_line)
+    assert str(error.value) == error_msg

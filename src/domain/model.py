@@ -27,7 +27,7 @@ class Batch:
         self._purchased_quantity = quantity
         self._allocations = set()
 
-    def allocate(self, line: OrderLine) -> None:
+    def allocate(self, line: OrderLine):
         if self.can_allocate(line=line):
             self._allocations.add(line)
         else:
