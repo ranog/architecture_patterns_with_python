@@ -54,3 +54,10 @@ def test_exception_in_allocate_when_can_allocation_is_false():
     with pytest.raises(AllocateError) as error:
         batch.allocate(different_sku_line)
     assert str(error.value) == error_msg
+
+
+def test_allocationg_is_idempotent():
+    batch, line = _make_batch_and_line(sku='ANGULAR-DESK', batch_qty=20, line_qty=2)
+    batch.allocate(line=line)
+    batch.allocate(line=line)
+    assert batch.available_quantity == 18
