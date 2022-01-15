@@ -1,6 +1,6 @@
 import pytest
 from datetime import date
-from src.domain.model import Batch, OrderLine
+from src.domain.model import Batch, Money, Name, Line, OrderLine
 from src.exceptions.model import AllocateError, DeallocateError
 
 
@@ -61,3 +61,9 @@ def test_allocationg_is_idempotent():
     batch.allocate(line=line)
     batch.allocate(line=line)
     assert batch.available_quantity == 18
+
+
+def test_equality():
+    assert Money('gbp', 10) == Money('gbp', 10)
+    assert Name('Harry', 'Percival') != Name('Bob', 'Gregory')
+    assert Line('RED-CHAIR', 5) == Line('RED-CHAIR', 5)

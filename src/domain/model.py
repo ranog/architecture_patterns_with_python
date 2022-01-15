@@ -1,12 +1,27 @@
+from collections import namedtuple
 from datetime import date
 from dataclasses import dataclass
-from typing import Optional, NewType
+from typing import NamedTuple, Optional, NewType
 from src.exceptions.model import AllocateError, DeallocateError
 
 Reference = NewType('Reference', str)
 ProductReference = NewType('ProductReference', str)
 Quantity = NewType('Quantity', int)
 OrderReference = NewType('OrderReference', str)
+
+
+@dataclass(frozen=True)
+class Name:
+    first_name: str
+    surname: str
+
+
+class Money(NamedTuple):
+    currency: str
+    value: int
+
+
+Line = namedtuple('Line', ['sku', 'qty'])
 
 
 @dataclass(frozen=True)
