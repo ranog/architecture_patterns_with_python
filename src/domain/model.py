@@ -1,24 +1,29 @@
 from datetime import date
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, NewType
 
 from src.exceptions.model import AllocateError, DeallocateError
+
+Reference = NewType('Reference', str)
+Sku = NewType('Sku', str)
+Quantity = NewType('Quantity', int)
+Orderid = NewType('Orderid', str)
 
 
 @dataclass(frozen=True)
 class OrderLine:
-    orderid: str
-    sku: str
-    quantity: int
+    orderid: Orderid
+    sku: Sku
+    quantity: Quantity
 
 
 class Batch:
 
     def __init__(
         self,
-        reference: str,
-        sku: str,
-        quantity: int,
+        reference: Reference,
+        sku: Sku,
+        quantity: Quantity,
         eta: Optional[date],
     ):
         self.reference = reference
