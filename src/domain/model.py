@@ -1,33 +1,18 @@
-from collections import namedtuple
 from datetime import date
 from dataclasses import dataclass
-from typing import NamedTuple, Optional, NewType
+from typing import Optional, NewType
 from src.exceptions.model import AllocateError, DeallocateError
 
 Reference = NewType('Reference', str)
-ProductReference = NewType('ProductReference', str)
+Sku = NewType('Sku', str)
 Quantity = NewType('Quantity', int)
-OrderReference = NewType('OrderReference', str)
-
-
-@dataclass(frozen=True)
-class Name:
-    first_name: str
-    surname: str
-
-
-class Money(NamedTuple):
-    currency: str
-    value: int
-
-
-Line = namedtuple('Line', ['sku', 'qty'])
+Orderid = NewType('Orderid', str)
 
 
 @dataclass(frozen=True)
 class OrderLine:
-    orderid: OrderReference
-    sku: ProductReference
+    orderid: Orderid
+    sku: Sku
     quantity: Quantity
 
 
@@ -36,7 +21,7 @@ class Batch:
     def __init__(
         self,
         reference: Reference,
-        sku: ProductReference,
+        sku: Sku,
         quantity: Quantity,
         eta: Optional[date],
     ):
