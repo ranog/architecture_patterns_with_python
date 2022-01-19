@@ -31,6 +31,14 @@ class Batch:
         self._purchased_quantity = quantity
         self._allocations = set()
 
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, Batch):
+            return False
+        return other.reference == self.reference
+
+    def __hash__(self) -> int:
+        return hash(self.reference)
+
     def allocate(self, line: OrderLine):
         if self.can_allocate(line=line):
             self._allocations.add(line)

@@ -30,9 +30,9 @@ def test_can_subtract_money_values():
     assert tenner.value - fiver.value == fiver.value
 
 
-# def test_adding_different_currencies_fails():
-#     with pytest.raises(ValueError):
-#         Money('usd', 10) + Money('gbp', 10)
+def test_adding_different_currencies_fails():
+    with pytest.raises(ValueError):
+        Money('usd', 10) + Money('gbp', 10)
 
 
 def test_can_multiply_money_by_a_number():
