@@ -1,6 +1,5 @@
 from collections import namedtuple
 from dataclasses import dataclass
-from typing import NamedTuple
 
 
 @dataclass(frozen=True)
@@ -9,9 +8,15 @@ class Name:
     surname: str
 
 
-class Money(NamedTuple):
+@dataclass(frozen=True)
+class Money:
     currency: str
     value: int
+
+    def __add__(self, other):
+        if other.currency != self.currency:
+            raise ValueError(f'Cannot add {self.currency} to {other.currency}')
+        return Money(self.currency, self.value + other.value)
 
 
 Line = namedtuple('Line', ['sku', 'qty'])
