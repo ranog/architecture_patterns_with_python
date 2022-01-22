@@ -4,3 +4,7 @@ class AllocateError(Exception):
 
 class DeallocateError(Exception):
     pass
+
+
+class OutOfStockError(Exception):
+    pass

@@ -1,5 +1,8 @@
 from datetime import date, timedelta
+
+import pytest
 from src.domain.model import Batch, OrderLine, allocate
+from src.exceptions.model import OutOfStockError
 
 today = date.today()
 tomorrow = today + timedelta(days=1)
@@ -38,3 +41,15 @@ def test_returns_allocated_batch_ref():
     allocation = allocate(line, [in_stock_batch, shipment_batch])
 
     assert allocation == in_stock_batch.reference
+
+
+def test_raises_out_of_stock_exception_if_cannot_allocate():
+    batch = Batch('batch1', 'SMALL-FORK', 10, eta=today)
+    line = OrderLine('order1', 'SMALL-FORK', 10)
+    allocate(line, [batch])
+
+    error_msg = f'Out of stock error for sky {line.sku}'
+    with pytest.raises(OutOfStockError, match='SMALL-FORK') as error:
+        allocate(OrderLine('order2', 'SMALL-FORK', 1), [batch])
+
+    assert str(error.value) == error_msg

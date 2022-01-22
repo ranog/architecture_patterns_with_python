@@ -1,7 +1,7 @@
 from datetime import date
 from dataclasses import dataclass
 from typing import List, Optional, NewType
-from src.exceptions.model import AllocateError, DeallocateError
+from src.exceptions.model import AllocateError, DeallocateError, OutOfStockError
 
 Reference = NewType('Reference', str)
 Sku = NewType('Sku', str)
@@ -71,6 +71,9 @@ class Batch:
 
 
 def allocate(line: OrderLine, batches: List[Batch]) -> str:
-    batch = next(b for b in sorted(batches) if b.can_allocate(line))
-    batch.allocate(line)
-    return batch.reference
+    try:
+        batch = next(b for b in sorted(batches) if b.can_allocate(line))
+        batch.allocate(line)
+        return batch.reference
+    except StopIteration:
+        raise OutOfStockError(f'Out of stock error for sky {line.sku}')
