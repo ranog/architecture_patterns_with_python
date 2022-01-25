@@ -1,3 +1,7 @@
+from urllib import request
+from src.domain.model import OrderLine, allocate
+
+
 @flask.route.gubbins
 def allocate_endpoint():
     # extract order line from request
