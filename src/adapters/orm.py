@@ -6,10 +6,10 @@ from sqlalchemy import (
     Column,
     Integer,
     String,
-    Date,
+    # Date,
     ForeignKey,
 )
-from sqlalchemy.orm import mapper, relationship
+from sqlalchemy.orm import mapper  # relationship
 
 logger = logging.getLogger(__name__)
 
@@ -35,3 +35,4 @@ allocations = Table(
 
 def start_mappers():
     lines_mapper = mapper(model.OrderLine, order_lines)
+    lines_mapper
