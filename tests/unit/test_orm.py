@@ -1,8 +1,8 @@
-from src.domain import model
+from src.allocation.domain import model
 
 
-def test_orderline_mapper_can_load_lines(session):
-    session.execute(
+def test_orderline_mapper_can_load_lines(sqlite_session_factory):
+    sqlite_session_factory.execute(
         'INSERT INTO order_lines (orderid, sku, qty) VALUES '
         '("order1", "RED-CHAIR", 12),'
         '("order1", "RED-TABLE", 13),'
@@ -13,13 +13,13 @@ def test_orderline_mapper_can_load_lines(session):
         model.OrderLine("order1", "RED-TABLE", 13),
         model.OrderLine("order2", "BLUE-LIPSTICK", 14),
     ]
-    assert session.query(model.OrderLine).all() == expected
+    assert sqlite_session_factory.query(model.OrderLine).all() == expected
 
 
-def test_oderline_mapper_can_save_lines(session):
+def test_oderline_mapper_can_save_lines(sqlite_session_factory):
     new_line = model.OrderLine('order1', 'DECORATIVE-WIDGET', 12)
-    session.add(new_line)
-    session.commit()
+    sqlite_session_factory.add(new_line)
+    sqlite_session_factory.commit()
 
-    rows = list(session.execute('SELECT orderid, sku,  qty FROM "order_lines"'))
+    rows = list(sqlite_session_factory.execute('SELECT orderid, sku,  qty FROM "order_lines"'))
     assert rows == [('order1', 'DECORATIVE-WIDGET', 12)]

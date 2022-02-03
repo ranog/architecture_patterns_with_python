@@ -1,12 +1,19 @@
-from src.domain.model import Batch
-from src.adapters.repositories import repository
+import pytest
+from src.allocation.adapters import repository
+from src.allocation.domain import model
+
+pytestmark = pytest.mark.usefixtures("mappers")
 
 
-def test_repository_can_save_a_batch(session):
-    batch = Batch(reference='batch1', sku='RUSTY-SOAPDISH', quantity=100, eta=None)
-
+def test_get_by_batchref(sqlite_session_factory):
+    session = sqlite_session_factory()
     repo = repository.SqlAlchemyRepository(session)
-    repo.add(batch)
-
-    rows = list(session.execute('SELECT reference, sku, _purchased_quantity, eta FROM "batches"'))
-    assert rows == [('batch1', 'RUSTY-SOAPDISH', 100, None)]
+    b1 = model.Batch(ref="b1", sku="sku1", qty=100, eta=None)
+    b2 = model.Batch(ref="b2", sku="sku1", qty=100, eta=None)
+    b3 = model.Batch(ref="b3", sku="sku2", qty=100, eta=None)
+    p1 = model.Product(sku="sku1", batches=[b1, b2])
+    p2 = model.Product(sku="sku2", batches=[b3])
+    repo.add(p1)
+    repo.add(p2)
+    assert repo.get_by_batchref("b2") == p1
+    assert repo.get_by_batchref("b3") == p2

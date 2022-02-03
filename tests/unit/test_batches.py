@@ -1,7 +1,7 @@
 import pytest
 from datetime import date
-from src.domain.model import Batch, OrderLine
-from src.exceptions.model import AllocateError, DeallocateError
+from src.allocation.domain.model import Batch, OrderLine
+from src.allocation.exceptions.model import AllocateError, DeallocateError
 
 
 def _make_batch_and_line(sku: str, batch_qty: int, line_qty: int):
