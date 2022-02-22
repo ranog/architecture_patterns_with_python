@@ -16,16 +16,21 @@ def test_allocating_to_a_batch_reduces_the_available_quantity():
 
 
 def test_can_allocate_if_available_greater_than_required():
-    pass
+    large_batch, small_line = make_batch_and_line(sku='ELEGANT-LAMP', batch_qty=20, line_qty=2)
+    assert large_batch.can_allocate(small_line)
 
 
 def test_cannot_allocate_if_available_smaller_than_required():
-    pass
+    small_batch, large_line = make_batch_and_line(sku='ELEGANT-LAMP', batch_qty=2, line_qty=20)
+    assert small_batch.can_allocate(large_line) is False
 
 
 def test_can_allocate_if_available_equal_to_required():
-    pass
+    batch, line = make_batch_and_line(sku='ELEGANT-LAMP', batch_qty=2, line_qty=2)
+    assert batch.can_allocate(line)
 
 
 def test_cannot_allocate_if_skus_do_not_match():
-    pass
+    batch = Batch(ref='batch-001', sku='UNCOMFORTABLE-CHAIR', qty=100, eta=None)
+    different_sku_line = OrderLine(orderid='order-123', sku='EXPENSIVE-TOASTER', qty=10)
+    assert batch.can_allocate(different_sku_line) is False
