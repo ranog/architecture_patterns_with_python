@@ -10,6 +10,12 @@ class Name:
     surname: str
 
 
+class Person:
+
+    def __init__(self, name: Name):
+        self.name = name
+
+
 @dataclass(frozen=True)
 class Money:
     currency: str
@@ -54,3 +60,16 @@ def test_can_multiply_money_by_a_number():
 def test_multiplying_two_money_values_is_an_error():
     with pytest.raises(TypeError):
         tenner * fiver
+
+
+def test_name_equality():
+    assert Name(first_name='Harry', surname='Percival') != Name(first_name='Barry', surname='Percival')
+
+
+def test_barry_is_harry():
+    harry = Person(name=Name(first_name='Harry', surname='Percival'))
+    barry = harry
+
+    barry.name = Name(first_name='Barry', surname='Percival')
+
+    assert harry is barry and barry is harry
