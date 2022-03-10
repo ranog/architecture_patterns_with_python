@@ -1,21 +1,19 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, MetaData, String, Table
+from sqlalchemy.orm import mapper
+from src.allocation.domain import model
 
-Base = declarative_base()
+metadata = MetaData()
 
+order_lines = Table(
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('sku', String(250)),
+    Column('qty', Integer, nullable=False),
+    Column('order_id', String(250)),
+)
 
-class Order(Base):
-    id = Column(Integer, primary_key=True)
-
-
-class OrderLine(Base):
-    id = Column(Integer, primary_key=True)
-    sku = Column(String(250))
-    qty = Integer(String(250))
-    order_id = Column(Integer, ForeignKey('order.id'))
-    order = relationship(Order)
+...
 
 
-class Allocation(Base):
-    ...
+def start_mappers():
+    lines_mapper = mapper(model.OrderLine, order_lines)
+    return lines_mapper
