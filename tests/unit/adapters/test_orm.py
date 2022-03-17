@@ -1,4 +1,4 @@
-from src.allocation.domain import model
+from src.allocation.domain.model import OrderLine
 
 
 def test_orderline_mapper_can_load_lines(session):
@@ -9,16 +9,16 @@ def test_orderline_mapper_can_load_lines(session):
         '("order2", "BLUE-LIPSTICK", 14)'
     )
     expected = [
-        model.OrderLine(orderid='order1', sku='RED-CHAIR', qty=12),
-        model.OrderLine(orderid='order1', sku='RED-TABLE', qty=13),
-        model.OrderLine(orderid='order2', sku='BLUE-LIPSTICK', qty=14),
+        OrderLine(orderid='order1', sku='RED-CHAIR', qty=12),
+        OrderLine(orderid='order1', sku='RED-TABLE', qty=13),
+        OrderLine(orderid='order2', sku='BLUE-LIPSTICK', qty=14),
     ]
 
-    assert session.query(model.OrderLine).all() == expected
+    assert session.query(OrderLine).all() == expected
 
 
 def test_orderline_mapper_can_save_lines(session):
-    new_line = model.OrderLine(orderid='order1', sku='DECORATIVE-WIDGET', qty=12)
+    new_line = OrderLine(orderid='order1', sku='DECORATIVE-WIDGET', qty=12)
     session.add(new_line)
     session.commit()
     rows = list(session.execute('SELECT orderid, sku, qty FROM "order_lines"'))
