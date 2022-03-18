@@ -1,21 +1,18 @@
-from sqlalchemy import Column, Integer, MetaData, String, Table
-from sqlalchemy.orm import mapper
+from sqlalchemy import Column, Integer, String, Table
+from sqlalchemy.orm import registry
 from src.allocation.domain import model
 
-metadata = MetaData()
+mapper_registry = registry()
 
 order_lines = Table(
     'order_lines',
-    metadata,
+    mapper_registry.metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
     Column('sku', String(250)),
     Column('qty', Integer, nullable=False),
     Column('order_id', String(250)),
 )
 
-...
-
 
 def start_mappers():
-    lines_mapper = mapper(model.OrderLine, order_lines)
-    return lines_mapper
+    mapper_registry.map_imperatively(model.OrderLine, order_lines)
