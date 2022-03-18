@@ -10,6 +10,9 @@ class OrderLine:
     sku: str
     qty: int
 
+    def __hash__(self) -> int:
+        return hash(self.order_id) ^ hash(self.sku) ^ hash(self.qty)
+
 
 class Batch:
 

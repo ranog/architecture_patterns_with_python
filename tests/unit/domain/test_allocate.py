@@ -41,9 +41,9 @@ def test_returns_allocated_batch_ref():
 
 def test_raises_out_of_stock_exception_if_cannot_allocate():
     batch = Batch(ref='batch1', sku='SMALL-FORK', qty=10, eta=today)
-    line = OrderLine(orderid='order1', sku='SMALL-FORK', qty=10)
+    line = OrderLine(order_id='order1', sku='SMALL-FORK', qty=10)
     allocate(line=line, batches=[batch])
     with pytest.raises(OutOfStock, match='SMALL-FORK') as error:
-        allocate(line=OrderLine(orderid='order2', sku='SMALL-FORK', qty=1), batches=[batch])
+        allocate(line=OrderLine(order_id='order2', sku='SMALL-FORK', qty=1), batches=[batch])
 
     assert str(error.value) == f'Out of stock for sky {line.sku}'
