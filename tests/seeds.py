@@ -1,7 +1,7 @@
 CREATE_ORDER_LINES_TABLE = """
-DROP TABLE "order_lines";
+DROP TABLE IF EXISTS "order_lines";
 CREATE TABLE IF NOT EXISTS "order_lines" (
-    id int4,
+    id SERIAL,
     order_id varchar(255),
     sku varchar(255),
     qty int4,

@@ -1,14 +1,14 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date
 from typing import Optional, List
 
 
-@dataclass()
+@dataclass
 class OrderLine:
+    id: int = field(init=False)
     order_id: str
     sku: str
     qty: int
-    id: int = None
 
 
 class Batch:
