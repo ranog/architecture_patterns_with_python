@@ -1,4 +1,5 @@
 CREATE_ORDER_LINES_TABLE = """
+DROP TABLE "order_lines";
 CREATE TABLE IF NOT EXISTS "order_lines" (
     id int4,
     order_id varchar(255),
@@ -6,7 +7,6 @@ CREATE TABLE IF NOT EXISTS "order_lines" (
     qty int4,
     CONSTRAINT "order_lines_pkey" PRIMARY KEY (id)
 );
-TRUNCATE TABLE "order_lines";
 """
 
 ORDER_LINES_SEED = """
@@ -15,6 +15,5 @@ INSERT INTO
 VALUES
     (1,'order1','RED-CHAIR',12),
     (2,'order2','RED-TABLE',13),
-    (3,'order3','BLUE-LIPSTICK',14),
-    (4,'order4','DECORATIVE-WIDGET',12)
+    (3,'order3','BLUE-LIPSTICK',14)
 """
