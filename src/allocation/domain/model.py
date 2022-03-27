@@ -3,15 +3,12 @@ from datetime import date
 from typing import Optional, List
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class OrderLine:
-    id: int = field(init=False)
     order_id: str
     sku: str
     qty: int
-
-    def __hash__(self) -> int:
-        return hash(self.order_id) ^ hash(self.sku) ^ hash(self.qty)
+    id: int = field(default_factory=int)
 
 
 class Batch:
