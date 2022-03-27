@@ -1,3 +1,4 @@
+from pytest import Session
 from src.allocation.domain.model import Batch
 import abc
 
@@ -15,8 +16,8 @@ class AbstractRepository(abc.ABC):
 
 class SqlAlchemyRepository:
 
-    def __init__(self, batch: Batch) -> None:
-        self.batch = batch
+    def __init__(self, session: Session) -> None:
+        self.session = session
 
     def add(self, batch: Batch):
         pass
