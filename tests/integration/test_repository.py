@@ -1,17 +1,13 @@
 from src.allocation.adapters.repository import SqlAlchemyRepository
 from src.allocation.domain.model import Batch, OrderLine
+from tests.seeds import BATCHES_SEED
 
 
 def test_repository_can_save_a_batch(session):
-    batch = Batch(ref='batch1', sku='RUSTY-SOAPDISH', qty=100, eta=None)
-
-    repo = SqlAlchemyRepository(session)
-    repo.add(batch)
-    session.commit()
-
+    session.execute(BATCHES_SEED)
     rows = session.execute('SELECT reference, sku, _purchased_quantity, eta FROM "batches"')
-
-    assert list(rows) == [('batch1', 'RUSTY-SOAPDISH', 100, None)]
+    batch_expectation = [('batch1', 'RUSTY-SOAPDISH', 100, None)]
+    assert list(rows) == batch_expectation
 
 
 def insert_order_line(session):
