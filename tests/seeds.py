@@ -15,7 +15,8 @@ INSERT INTO
 VALUES
     (1,'order1','RED-CHAIR',12),
     (2,'order2','RED-TABLE',13),
-    (3,'order3','BLUE-LIPSTICK',14)
+    (3,'order3','BLUE-LIPSTICK',14),
+    (4,'order4','GENERIC-SOFA',12)
 """
 
 CREATE_BATCHES_TABLE = """

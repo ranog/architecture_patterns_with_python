@@ -10,7 +10,9 @@ def test_orderline_mapper_can_load_lines(session):
     order_line_2.id = 2
     order_line_3 = OrderLine(order_id='order3', sku='BLUE-LIPSTICK', qty=14)
     order_line_3.id = 3
-    expected = [order_line_1, order_line_2, order_line_3]
+    order_line_4 = OrderLine(order_id='order4', sku='GENERIC-SOFA', qty=12)
+    order_line_4.id = 4
+    expected = [order_line_1, order_line_2, order_line_3, order_line_4]
     order_lines = session.query(OrderLine).order_by(OrderLine.id).all()
     assert order_lines == expected
 

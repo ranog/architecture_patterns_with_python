@@ -14,10 +14,16 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
 
-class SqlAlchemyRepository:
+class SqlAlchemyRepository(AbstractRepository):
 
     def __init__(self, session: Session) -> None:
         self.session = session
 
     def add(self, batch: Batch):
-        pass
+        self.session.add(batch)
+
+    def get(self, reference: str):
+        return self.session.query(Batch).filter_by(reference=reference).one()
+
+    def list(self):
+        return self.session.query(Batch).all()
